@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/ThiagoPanchi/challenge/issues"
   },
-  "homepage": "https://github.com/ThiagoPanchi/challenge#readme"
+  "homepage": "https://github.com/ThiagoPanchi/challenge#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
 }
