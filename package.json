@@ -1,0 +1,19 @@
+{
+  "name": "challenge",
+  "version": "1.0.0",
+  "description": "Bem vindo(a)! Esse é o Delivery Much Tech Challenge.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThiagoPanchi/challenge.git"
+  },
+  "author": "Thiago Panchiniak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThiagoPanchi/challenge/issues"
+  },
+  "homepage": "https://github.com/ThiagoPanchi/challenge#readme"
+}
