@@ -2,9 +2,9 @@
   "name": "challenge",
   "version": "1.0.0",
   "description": "Bem vindo(a)! Esse é o Delivery Much Tech Challenge.",
-  "main": "server.js",
+  "main": "./src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
