@@ -46,7 +46,7 @@ module.exports = {
 
       recipesResults.recipes.push({
         title: recipeTitle,
-        ingredients: recipeIngredients,
+        ingredients: recipeIngredients.sort(),
         link: recipe.href,
         gif: '',
       });
