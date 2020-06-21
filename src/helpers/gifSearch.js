@@ -8,9 +8,13 @@ module.exports = async function gifSearch(req) {
       q: req,
       limit: 1,
     },
-  }).then((response) => {
-    const gifUrl = response.data.data[0].url;
-    console.log(req + '=>' + gifUrl);
-    return gifUrl;
-  });
+  })
+    .then((response) => {
+      const gifUrl = response.data.data[0].url;
+
+      return gifUrl;
+    })
+    .catch((error) => {
+      console.log('Ops... An error occurs. ' + error);
+    });
 };

@@ -6,9 +6,13 @@ module.exports = async function getRecipes(req) {
       i: req,
     },
     responseType: 'Stream',
-  }).then((response) => {
-    const recipes = response.data.results;
+  })
+    .then((response) => {
+      const recipes = response.data.results;
 
-    return recipes;
-  });
+      return recipes;
+    })
+    .catch((error) => {
+      console.log('Ops... An error occurs. ' + error);
+    });
 };

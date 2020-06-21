@@ -52,12 +52,9 @@ module.exports = {
       });
     });
 
-    const recipesGif = [];
-    console.log(recipesResults.recipes);
-
     for (i = 0; i < recipesResults.recipes.length; i++) {
       const gifUrl = await gifSearch(recipesResults.recipes[i].title);
-      //console.log(gifUrl);
+
       recipesResults.recipes[i].gif = gifUrl;
     }
 
