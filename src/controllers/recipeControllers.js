@@ -1,4 +1,5 @@
 const recipeSearch = require('../helpers/recipeSearch');
+const gifSearch = require('../helpers/gifSearch');
 
 module.exports = {
   async show(req, res, next) {
@@ -17,43 +18,49 @@ module.exports = {
         Error:
           '400 BAD REQUEST: Number of ingredients cannot be greater than three.',
       });
-    } else {
-      const recipes = await recipeSearch(ingredients);
-      console.log(recipes.length);
+    }
 
-      if (recipes.length == 0) {
-        res.status(400).json({
-          Error: ` 400 BAD REQUEST: No recipes were found with the ingredients ${ingredients}`,
-        });
+    const recipes = await recipeSearch(ingredients);
+
+    if (recipes.length == 0) {
+      res.status(400).json({
+        Error: ` 400 BAD REQUEST: No recipes were found with the ingredients ${ingredients}`,
+      });
+    }
+
+    recipes.map((recipe) => {
+      const recipeIngredients = recipe.ingredients
+        .replace(/ /g, '')
+        .toLowerCase()
+        .split(',');
+
+      for (i = 0; i < ingredientsArray.length; i++) {
+        if (recipeIngredients.indexOf(ingredientsArray[i]) < 0) {
+          res.status(400).json({
+            Error: `400 BAD REQUEST: ${ingredientsArray[i]} were not found in the database, make sure you typed correctly and try again.`,
+          });
+        }
       }
 
-      recipes.map((recipe) => {
-        const recipeIngredients = recipe.ingredients
-          .replace(/ /g, '')
-          .toLowerCase()
-          .split(',');
+      const recipeTitle = recipe.title.replace(/\n/g, '');
 
-        for (i = 0; i < ingredientsArray.length; i++) {
-          if (recipeIngredients.indexOf(ingredientsArray[i]) < 0) {
-            console.log(recipeIngredients);
-
-            res.status(400).json({
-              Error: `400 BAD REQUEST: ${ingredientsArray[i]} were not found in the database, make sure you typed correctly and try again.`,
-            });
-          }
-        }
-
-        //const gifUrl = await gifSearch(recipe.title);
-
-        recipesResults.recipes.push({
-          title: recipe.title,
-          ingredients: recipe.ingredients.split(','),
-          link: recipe.href,
-          gif: 'gifUrl', //Função para buscar gif...
-        });
+      recipesResults.recipes.push({
+        title: recipeTitle,
+        ingredients: recipeIngredients,
+        link: recipe.href,
+        gif: '',
       });
+    });
 
-      res.json(recipesResults);
+    const recipesGif = [];
+    console.log(recipesResults.recipes);
+
+    for (i = 0; i < recipesResults.recipes.length; i++) {
+      const gifUrl = await gifSearch(recipesResults.recipes[i].title);
+      //console.log(gifUrl);
+      recipesResults.recipes[i].gif = gifUrl;
     }
+
+    await res.json(recipesResults);
   },
 };
