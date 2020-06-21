@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: npm start
+    ports:
+      - '3030:3030'
