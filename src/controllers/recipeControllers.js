@@ -1,4 +1,4 @@
-const axios = require('axios');
+const recipeSearch = require('../helpers/recipeSearch');
 
 module.exports = {
   async show(req, res, next) {
@@ -14,52 +14,45 @@ module.exports = {
 
     if (recipesResults.keywords.length >= 4) {
       res.json({
-        Error: 'Sorry... Number of ingredients cannot be greater than three.',
+        Error:
+          '400 BAD REQUEST: Number of ingredients cannot be greater than three.',
       });
     } else {
-      const recipes = await getRecipes(ingredients);
+      const recipes = await recipeSearch(ingredients);
+      console.log(recipes.length);
 
-      recipes.forEach((recipe) => {
-        //CRIAR FUNÇÃO OU IF PARA FILTRAR RESULTADOS QUE COMBINEM TODOS INGREDIENTES...
+      if (recipes.length == 0) {
+        res.status(400).json({
+          Error: ` 400 BAD REQUEST: No recipes were found with the ingredients ${ingredients}`,
+        });
+      }
+
+      recipes.map((recipe) => {
+        const recipeIngredients = recipe.ingredients
+          .replace(/ /g, '')
+          .toLowerCase()
+          .split(',');
+
+        for (i = 0; i < ingredientsArray.length; i++) {
+          if (recipeIngredients.indexOf(ingredientsArray[i]) < 0) {
+            console.log(recipeIngredients);
+
+            res.status(400).json({
+              Error: `400 BAD REQUEST: ${ingredientsArray[i]} were not found in the database, make sure you typed correctly and try again.`,
+            });
+          }
+        }
+
+        //const gifUrl = await gifSearch(recipe.title);
+
         recipesResults.recipes.push({
           title: recipe.title,
           ingredients: recipe.ingredients.split(','),
           link: recipe.href,
-          gif: '', //Função para buscar gif...
+          gif: 'gifUrl', //Função para buscar gif...
         });
       });
 
-      //console.log(recipes);
-
-      async function getRecipes(ingredients) {
-        //const allRecipes = [];
-        //console.log(ingredients);
-        return axios('http://www.recipepuppy.com/api', {
-          params: {
-            i: ingredients,
-          },
-          responseType: 'Stream',
-        }).then((response) => {
-          const recipes = response.data.results;
-          const ingredientsSearchArr = ingredients.split(',');
-          recipes.map((recipe) => {
-            const recipeIngredients = recipe.ingredients
-              .replace(/ /g, '')
-              .toLowerCase()
-              .split(',');
-            for (i = 0; i < ingredientsSearchArr.length; i++) {
-              if (recipeIngredients.indexOf(ingredientsSearchArr[i]) < 0) {
-                console.log(recipeIngredients);
-                return res.status(400).json({
-                  Error: `Error, ${ingredientsSearchArr[i]} were not found in the database, make sure you typed correctly and try again.`,
-                });
-              }
-            }
-          });
-
-          return recipes;
-        });
-      }
       res.json(recipesResults);
     }
   },
