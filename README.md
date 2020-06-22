@@ -70,7 +70,7 @@ Para rodar a aplicação a partir do docker você precisar ter o docker instalad
 
 #### Docker-Compose
 ```
-cker-compose up
+docker-compose up
 ```
 #### Docker
 ```
