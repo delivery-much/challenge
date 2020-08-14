@@ -18,7 +18,7 @@ Utilize as APIs públicas da RecipePuppy (http://www.recipepuppy.com/about/api/)
 A API deve receber como parâmetro um conjunto de ingredientes (máximo 3) e deve retornar os itens utilizados para realizar a busca; e uma lista de receitas.
 
 Cada item lista de receitas deve possuir 4 atributos:
-- Título da receitam;
+- Título da receita;
 - Lista de ingredientes;
 - Link para acessar a receita;
 - Link de um gif para a receita.
