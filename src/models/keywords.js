@@ -2,20 +2,23 @@
 // BLACKLIST - KEYWORDS PROIBIDAS.
 // MÉTRICAS - MEDIR QUAIS KEYWORDS SÃO MAIS UTILIZADAS.
 // DATAWRANGLING - CASO NECESSITE PARA ANÁLISE DE DADOS.
+// REMOVER INGREDIENTES IGUAIS.
 // ENTRE OUTROS ASPECTOS.
 
-// CONSTANTE DO PARAMETRO QUE SERÁ USADO PARA SEPARAR AS KEYWORDS
-const splitter = ',';
-const ingredientBactchSize = 3;
+// INICIA O ARQUIVO DE CONFIGURAÇÃO
+const dotenv = require('dotenv')
+dotenv.config()
 
 module.exports = {
   split (i) {
-    let ingredients = i.split(splitter);
+    // PEGA DO .ENV QUAL A STRING UTILIZADA PARA SEPARAR OS INGREDIENTES, CASO UM DIA MUDE. "," É O PADRÃO.
+    let ingredients = i.split(process.env.INGREDIENT_SPLITTER);
     ingredients = ingredients.filter(elem => elem !== '');
 
-    if(ingredients.length > ingredientBactchSize) {
+    // CONFERE SE A QUANTIDADE DE INGREDIENTES ENVIADOS É COMPATÍVEL COM A QUANTIDADE DE INGREDIENTES PERMITIDOS NO .ENV
+    if(ingredients.length > process.env.INGREDIENT_BATCH_SIZE) {
         console.log('Ingredient batch size limit reached');
-        let error = new Error(`Ingredient batch limit is ${ingredientBactchSize}`);
+        let error = new Error(`Ingredient batch limit is ${process.env.INGREDIENT_BATCH_SIZE}`);
         error.code = 400;
         throw error;
     }
