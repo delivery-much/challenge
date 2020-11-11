@@ -7,11 +7,15 @@ const port = 3000
 // URL DE ENTRADA DAS RECEITAS
 app.get('/recipes/', (req, res) => {
   console.log(`Recieving parameters ${req.query.i}`)
-
-  // DIVIDE AS PALAVRAS-CHAVE E FILTRA CASO VENHA EM ALGUMA PALAVRA EM BRACO
-  let keywords = Keywords.split(req.query.i);
-
-  res.status(200).json({msg: keywords});
+  try {
+    // DIVIDE AS PALAVRAS-CHAVE E FILTRA CASO VENHA EM ALGUMA PALAVRA EM BRACO
+    let keywords = Keywords.split(req.query.i);
+    res.status(200).json({msg: keywords});
+  } catch (e) {
+    // LOGA O ERRO NO CONSOLE E RETORNA O MESMO PARA O USUÁRIO
+    console.error(e);
+    res.status(e.code).json({message: e.message});
+  }
 })
 
 // FALLBACK PARA CASO SEJAM ENVIADOS REQUESTS COM OUTROS METODOS HTTP
