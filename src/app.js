@@ -14,6 +14,16 @@ app.get('/recipes/', (req, res) => {
   res.status(200).json({msg: keywords});
 })
 
+// FALLBACK PARA CASO SEJAM ENVIADOS REQUESTS COM OUTROS METODOS HTTP
+app.all('/recipes/', (req, res) => {
+  res.status(405).json({message: "Method not allowed"});
+})
+
+// FALLBACK PARA QUALQUER OUTRA URL NO SERVIDOR
+app.all('*', (req, res) => {
+  res.status(404).json({message: "Page not found"});
+})
+
 app.listen(port, () => {
   console.log('Program starting..');
 })
