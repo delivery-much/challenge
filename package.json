@@ -2,7 +2,7 @@
   "name": "delivery-much-challange",
   "version": "1.0.0",
   "description": "Delivery Much NODE.JS test",
-  "main": "./src/main.js",
+  "main": "./src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
