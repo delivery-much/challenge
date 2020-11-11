@@ -1,0 +1,22 @@
+{
+  "name": "delivery-much-challange",
+  "version": "1.0.0",
+  "description": "Delivery Much NODE.JS test",
+  "main": "./src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delivery-much/challenge.git"
+  },
+  "author": "Victor Martins",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/delivery-much/challenge/issues"
+  },
+  "homepage": "https://github.com/delivery-much/challenge#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
