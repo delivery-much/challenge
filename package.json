@@ -7,7 +7,7 @@
     "start": "npm run dev",
     "dev": "node src/app.js",
     "test": "npm run unit",
-    "unit": "jest --coverage",
+    "unit": "jest --coverage"
   },
   "jest": {
     "verbose": true
