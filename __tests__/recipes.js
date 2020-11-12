@@ -1,10 +1,11 @@
 const request = require('supertest');
 const assert = require("assert");
 
+const url = `${process.env.URL}:${process.env.PORT}`;
 // RECIPES ALIVE TEST
 describe('GET /recipes?i=cheese,onion', function() {
   it('responds with json', function(done) {
-    request('http://localhost:3000')
+    request(url)
       .get('/recipes?i=cheese,onion')
       .set('Accept', 'application/json')
       // SHOULD RETURN JSON
@@ -33,7 +34,7 @@ describe('GET /recipes?i=cheese,onion', function() {
 // RECIPES NOT FOUND TEST
 describe('GET /recipes?i=xise', function() {
   it('responds with json', function(done) {
-    request('http://localhost:3000')
+    request(url)
       .get('/recipes?i=xise')
       .set('Accept', 'application/json')
       // SHOULD RETURN JSON
@@ -46,7 +47,7 @@ describe('GET /recipes?i=xise', function() {
 // METHOD NOT ALLOWED TEST
 describe('POST /recipes?i=xise', function() {
   it('responds with json', function(done) {
-    request('http://localhost:3000')
+    request(url)
       .post('/recipes?i=xise')
       .set('Accept', 'application/json')
       // SHOULD RETURN JSON
@@ -59,7 +60,7 @@ describe('POST /recipes?i=xise', function() {
 // METHOD NOT ALLOWED TEST
 describe('POST /recipes?i=xise', function() {
   it('responds with json', function(done) {
-    request('http://localhost:3000')
+    request(url)
       .post('/recipes?i=xise')
       .set('Accept', 'application/json')
       // SHOULD RETURN JSON
@@ -72,7 +73,7 @@ describe('POST /recipes?i=xise', function() {
 // ANY OTHER URL SHOULD RETURN 404
 describe('GET /', function() {
   it('responds with json', function(done) {
-    request('http://localhost:3000')
+    request(url)
       .get('/')
       // SHOULD RETURN JSON
       .expect('Content-Type', /json/)
