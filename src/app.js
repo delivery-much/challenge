@@ -3,6 +3,8 @@ const Keywords = require('./models/keywords')
 const Recipes = require('./models/recipes')
 const Giphy = require('./models/giphy')
 
+const getRecipe = require('./models/recipe')
+
 // INICIA O EXPRESS
 const express = require('express')
 const app = express()
@@ -39,8 +41,8 @@ app.get('/recipes/', async (req, res) => {
       // AGUARDA A CAPTURA DOS GIPHYS NA API
       await Giphy.search(title).then((result) => {
         // SETA OS PARAMETROS DA RECEITA QUE SERÃO ADICIONADOS AO ARRAY RECIPES
-        let recipe = {title: title.trim(), ingredients: ingredients.split(','), link: href};
-        console.log(`Pushing ${title.trim()} to recipes array`);
+        let recipe = getRecipe({title,ingredients,link: href})
+        console.log(`Pushing ${recipe.title} to recipes array`)
 
         // SE NÃO HÁ GIPHY DE RESPOSTA, LOGA.
         if(result.data.data.length === 0) {
