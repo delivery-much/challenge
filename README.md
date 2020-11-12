@@ -46,10 +46,12 @@ O projeto utiliza [docker-compose](https://docs.docker.com/compose/install/), pa
 ```
 $ docker-compose build
 $ docker-compose up -d
+$ npm run unit
 ```
 
 Caso não deseje utilizar o Docker, pode rodar o projeto utilizando o NPM.
 ```
 $ npm install
 $ npm run dev
+$ npm run unit
 ```
