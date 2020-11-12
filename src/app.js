@@ -13,11 +13,12 @@ dotenv.config()
 
 // URL DE ENTRADA DAS RECEITAS
 app.get('/recipes/', async (req, res) => {
+  // LOGA.
   console.log(`Recieving parameters ${req.query.i}`)
   try {
     // DIVIDE AS PALAVRAS-CHAVE E FILTRA CASO VENHA EM ALGUMA PALAVRA EM BRACO
     const keywords = Keywords.split(req.query.i);
-    let recipes = [];
+    const recipes = [];
 
     // PROCURA PELAS PALAVRAS CHAVES
     const response = await Recipes.search(keywords)
@@ -33,16 +34,28 @@ app.get('/recipes/', async (req, res) => {
 
     // PARA CADA RESULTADO VINDO, PROCURA UM GIF ADEQUADO
     const giphys = response.data.results.map(async ({title, ingredients, href}) => {
+      // LOGA.
       console.log(`${title.trim()} searching for gifs...`);
       // AGUARDA A CAPTURA DOS GIPHYS NA API
       await Giphy.search(title).then((result) => {
+        // SETA OS PARAMETROS DA RECEITA QUE SERÃO ADICIONADOS AO ARRAY RECIPES
+        let recipe = {title: title.trim(), ingredients: ingredients.split(','), link: href};
+        console.log(`Pushing ${title.trim()} to recipes array`);
+
+        // SE NÃO HÁ GIPHY DE RESPOSTA, LOGA.
+        if(result.data.data.length === 0) {
+          // LOGA
+          console.log(`${title.trim()} no GIPHY found!`);
+        }
+
         // PARA CADA GIPHY RETORNADO
         result.data.data.map(({url}) => {
-          // COLOCA NO ARRAY DE RECEITAS
-          recipes.push({title, ingredients, link: href, gif: url});
-          // LOGA
-          console.log(`Pushing ${title.trim()} to recipes array`);
+          // COLOCA GIPHY NA RECEITA
+          recipe.gif = url;
         })
+
+        // COLOCA A RECIPE NO ARRAY DE RECIPES QUE SERÁ RETORNADO
+        recipes.push(recipe)
       })
     })
 
