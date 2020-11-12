@@ -8,7 +8,6 @@
     "dev": "node src/app.js",
     "test": "npm run unit",
     "unit": "jest --coverage",
-    "challange-build": "mv .env.example .env && npm run start& && npm unit"
   },
   "jest": {
     "verbose": true
