@@ -33,7 +33,7 @@ app.get('/recipes/', async (req, res) => {
 
     // PARA CADA RESULTADO VINDO, PROCURA UM GIF ADEQUADO
     const giphys = response.data.results.map(async ({title, ingredients, href}) => {
-      console.log(`${title} searching for gifs...`);
+      console.log(`${title.trim()} searching for gifs...`);
       // AGUARDA A CAPTURA DOS GIPHYS NA API
       await Giphy.search(title).then((result) => {
         // PARA CADA GIPHY RETORNADO
