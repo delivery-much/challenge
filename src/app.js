@@ -41,7 +41,7 @@ app.get('/recipes/', async (req, res) => {
           // COLOCA NO ARRAY DE RECEITAS
           recipes.push({title, ingredients, link: href, gif: url});
           // LOGA
-          console.log(`Pushing ${title} to recipes array`);
+          console.log(`Pushing ${title.trim()} to recipes array`);
         })
       })
     })
