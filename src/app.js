@@ -1,5 +1,7 @@
 // DEPENDÊNCIAS
 const Keywords = require('./models/keywords')
+const Recipes = require('./models/recipes')
+const Giphy = require('./models/giphy')
 
 // INICIA O EXPRESS
 const express = require('express')
@@ -10,13 +12,40 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 // URL DE ENTRADA DAS RECEITAS
-app.get('/recipes/', (req, res) => {
+app.get('/recipes/', async (req, res) => {
   console.log(`Recieving parameters ${req.query.i}`)
   try {
     // DIVIDE AS PALAVRAS-CHAVE E FILTRA CASO VENHA EM ALGUMA PALAVRA EM BRACO
-    let keywords = Keywords.split(req.query.i);
+    const keywords = Keywords.split(req.query.i);
+    let recipes = [];
 
-    res.status(200).json({msg: keywords});
+    // PROCURA PELAS PALAVRAS CHAVES
+    const response = await Recipes.search(keywords)
+    console.log(response);
+    console.log(`${response.data.results.length} recipes were found!!`);
+
+    // VERIFICA SE HÁ ALGUMA RESPOSTA
+    if(response.data.results.length === 0) {
+        let error = new Error('No recipes were found');
+        error.code = 404;
+        throw error;
+    }
+
+    // PARA CADA RESULTADO VINDO, PROCURA UM GIF ADEQUADO
+    response.data.results.map(({title, ingredients, href}) => {
+      console.log(`${title} searching for gifs...`);
+
+      Giphy.search(title).then((giphys) => {
+        console.log(giphys)
+        giphys.data.data.map(({url}) => {
+          recipes.push({title, ingredients, link: href, gif: url});
+          console.log('Pushing to array');
+        })
+
+        // QUANDO OBTIVER A RESPOSTA, LOGA E PROSSEGUE.
+        res.json({keywords, recipes});
+      })
+    })
   } catch (e) {
     // LOGA O ERRO NO CONSOLE E RETORNA O MESMO PARA O USUÁRIO
     console.error(e);
