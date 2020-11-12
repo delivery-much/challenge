@@ -5,8 +5,8 @@ const api = axios.create({
 });
 
 module.exports = {
- search (keywords) {
-    return api.get('/api', {
+ async search (keywords) {
+    return await api.get('/api', {
       params: {
         i: keywords.join(process.env.INGREDIENT_SPLITTER)
       }

@@ -21,7 +21,7 @@ app.get('/recipes/', async (req, res) => {
 
     // PROCURA PELAS PALAVRAS CHAVES
     const response = await Recipes.search(keywords)
-    console.log(response);
+    // LOGA O RESULTADO
     console.log(`${response.data.results.length} recipes were found!!`);
 
     // VERIFICA SE HÁ ALGUMA RESPOSTA
@@ -32,20 +32,28 @@ app.get('/recipes/', async (req, res) => {
     }
 
     // PARA CADA RESULTADO VINDO, PROCURA UM GIF ADEQUADO
-    response.data.results.map(({title, ingredients, href}) => {
+    const giphys = response.data.results.map(async ({title, ingredients, href}) => {
       console.log(`${title} searching for gifs...`);
-
-      Giphy.search(title).then((giphys) => {
-        console.log(giphys)
-        giphys.data.data.map(({url}) => {
+      // AGUARDA A CAPTURA DOS GIPHYS NA API
+      await Giphy.search(title).then((result) => {
+        // PARA CADA GIPHY RETORNADO
+        result.data.data.map(({url}) => {
+          // COLOCA NO ARRAY DE RECEITAS
           recipes.push({title, ingredients, link: href, gif: url});
-          console.log('Pushing to array');
+          // LOGA
+          console.log(`Pushing ${title} to recipes array`);
         })
-
-        // QUANDO OBTIVER A RESPOSTA, LOGA E PROSSEGUE.
-        res.json({keywords, recipes});
       })
     })
+
+    // AGUARDA TODOS OS GIPHYS SEREM PEGOS, E ENTÃO RETORNA OS DADOS
+    Promise.all(giphys).then((completed) => {
+      // LOGA
+      console.log(`All requests were completed, returning ${recipes.length} recipes`)
+      // QUANDO OBTIVER A RESPOSTA PROSSEGUE.
+      res.json({keywords, recipes});
+    })
+
   } catch (e) {
     // LOGA O ERRO NO CONSOLE E RETORNA O MESMO PARA O USUÁRIO
     console.error(e);
