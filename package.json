@@ -4,7 +4,7 @@
   "description": "Delivery Much NODE.JS test",
   "main": "./src/app.js",
   "scripts": {
-    "start": "npm run dev",
+    "start": "pm2 start src/app.js && npm unit",
     "dev": "node src/app.js",
     "test": "npm run unit",
     "unit": "jest --coverage"

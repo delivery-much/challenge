@@ -1,7 +1,13 @@
 const request = require('supertest');
 const assert = require("assert");
 
+// INICIA O ARQUIVO DE CONFIGURAÇÃO
+const dotenv = require('dotenv')
+dotenv.config()
+
+// PEGA A URL APARTIR DO DOTENV
 const url = `${process.env.URL}:${process.env.PORT}`;
+
 // RECIPES ALIVE TEST
 describe('GET /recipes?i=cheese,onion', function() {
   it('responds with json', function(done) {
