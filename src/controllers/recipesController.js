@@ -1,4 +1,5 @@
 const recipesRepo = require('../repositories/recipesRepository');
+const giphyRepo = require('../repositories/giphyRepository');
 
 exports.get = async (req, res, next) => {
   const { i } = req.query;
@@ -33,31 +34,40 @@ exports.get = async (req, res, next) => {
   const iFormatted = iArrSorted.join(',');
 
   // Puppy Recipe
-  await recipesRepo.get(
-    iFormatted,
-    async (data) => {
-      const recipesFormatted = await Promise.all(
-        data.recipes.map((r) => {
-          return {
-            title: r.title,
-            ingredients: r.ingredients.replace(/\s/g, '').split(',').sort(),
-            link: r.href,
-            gif: 'https://media.giphy.com/media/xBRhcST67lI2c/giphy.gif',
-          };
-        })
-      );
+  const recipesDataObj = await recipesRepo.get(iFormatted);
 
-      return res.status(200).send({
-        keywords: iArrSorted,
-        recipes: recipesFormatted,
-      });
-    },
-    (error) => {
-      return res.status(500).send({
-        message: 'Request failed',
-        status: 500,
-        error,
-      });
-    }
+  if (recipesDataObj.status >= 300) {
+    return res.status(recipesDataObj.status).send(recipesDataObj);
+  }
+
+  const recipesData = recipesDataObj.data;
+  const recipes = recipesData.results;
+
+  // Formatting Recipes
+  const recipesFormatted = await Promise.all(
+    recipes.map(async (r) => {
+      // GIPHY
+      const giphyDataObj = await giphyRepo.search(r.title);
+      const gif =
+        giphyDataObj && giphyDataObj.status === 200
+          ? `https://media.giphy.com/media/${giphyDataObj.data.data[0].id}/giphy.gif`
+          : 'Not Found';
+
+      return {
+        title: r.title,
+        ingredients: r.ingredients.replace(/\s/g, '').split(',').sort(),
+        link: r.href,
+        gif,
+      };
+    })
   );
+
+  const recipesFormattedSorted = recipesFormatted.sort((a, b) =>
+    a.title > b.title ? 1 : b.title > a.title ? -1 : 0
+  );
+
+  return res.status(200).send({
+    keywords: iArrSorted,
+    recipes: recipesFormattedSorted,
+  });
 };

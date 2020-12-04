@@ -1,9 +1,10 @@
 const fetch = require('node-fetch');
 
-const api = process.env.RECIPE_PUPPY_API;
+const api = process.env.GIPHY_API;
+const key = process.env.GIPHY_KEY;
 
-const get = async (ingredients) => {
-  const response = await fetch(`${api}/?p=1&i=${ingredients}`, {
+const search = async (q) => {
+  const response = await fetch(`${api}&q=${q}&api_key=${key}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -12,7 +13,7 @@ const get = async (ingredients) => {
     .then(
       await (async (res) => {
         return {
-          message: 'Recipe Puppy API GET success.',
+          message: 'GIPHY API SEARCH success.',
           status: 200,
           data: await res.json(),
         };
@@ -20,7 +21,7 @@ const get = async (ingredients) => {
     )
     .catch((error) => {
       return {
-        message: 'Recipe Puppy API GET request failed.',
+        message: 'GIPHY API SEARCH request failed.',
         status: 500,
         error,
       };
@@ -29,4 +30,4 @@ const get = async (ingredients) => {
   return response;
 };
 
-module.exports = { get };
+module.exports = { search };
