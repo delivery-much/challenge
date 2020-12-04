@@ -1,3 +1,5 @@
+const recipesRepo = require('../repositories/recipesRepository');
+
 exports.get = async (req, res, next) => {
   const { i } = req.query;
 
@@ -8,7 +10,8 @@ exports.get = async (req, res, next) => {
     });
   }
 
-  const iArr = i.split(',');
+  const iNoBlank = i.replace(/\s/g, '');
+  const iArr = iNoBlank.split(',');
 
   if (!iArr || !iArr.length) {
     return res.status(400).send({
@@ -29,9 +32,32 @@ exports.get = async (req, res, next) => {
   const iArrSorted = iArr.sort();
   const iFormatted = iArrSorted.join(',');
 
-  return res.status(200).send({
-    message: 'TEST OK',
-    status: 200,
+  // Puppy Recipe
+  await recipesRepo.get(
     iFormatted,
-  });
+    async (data) => {
+      const recipesFormatted = await Promise.all(
+        data.recipes.map((r) => {
+          return {
+            title: r.title,
+            ingredients: r.ingredients.replace(/\s/g, '').split(',').sort(),
+            link: r.href,
+            gif: 'https://media.giphy.com/media/xBRhcST67lI2c/giphy.gif',
+          };
+        })
+      );
+
+      return res.status(200).send({
+        keywords: iArrSorted,
+        recipes: recipesFormatted,
+      });
+    },
+    (error) => {
+      return res.status(500).send({
+        message: 'Request failed',
+        status: 500,
+        error,
+      });
+    }
+  );
 };

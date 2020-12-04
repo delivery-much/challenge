@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const app = express();
 
 // Carregando Rotas
-// const imgRoutes = require("./routes/imageRoutes");
+const recipesRoutes = require('./routes/recipesRoutes');
 
 // Usando BodyParser na aplicação
 app.use(bodyParser.json({ limit: process.env.MAX_SIZE + 'mb' }));
@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
 });
 
 // Usando rotas na aplicação
-// app.use('/images', imgRoutes);
+app.use('/recipes', recipesRoutes);
 
 // Exportando aplicação
 module.exports = app;
