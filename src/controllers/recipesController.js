@@ -51,6 +51,8 @@ exports.get = async (req, res, next) => {
       const gif =
         giphyDataObj && giphyDataObj.status === 200
           ? `https://media.giphy.com/media/${giphyDataObj.data.data[0].id}/giphy.gif`
+          : giphyDataObj
+          ? giphyDataObj.data
           : 'Not Found';
 
       return {
