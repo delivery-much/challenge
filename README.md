@@ -2,29 +2,59 @@
 
 Bem vindo(a)! Esse é o Delivery Much Tech Challenge.
 
-Aqui você terá todas as informações para realizar o seu desafio.
+AUTOR DO PROJETO: Cristiano Carvalho Modesto
+VERSÃO: 1.0
+DATA: 04/12/2020
 
-O tempo sugerido para conclusão do desafio é de três dias, mas não é uma regra. Estamos mais interessados em observar a qualidade da solução do que o tempo.
+# .gitignore
 
-Quando sua solução estiver pronta, envie um e-mail para `tech.challenge@deliverymuch.com.br` com o link do seu repositório no Github. Seu código será analisado pelo nosso time de engenheiros. Após a análise, enviaremos o feedback e as instruções dos próximos passos!
+-> O arquivo .env deve ser preenchido com os seguintes campos:
+PORT_SERVER= (Porta em que a API deve rodar)
+HOST_SERVER= (IP Host do Servidor)
+MAX_SIZE= (Tamanho máximo de fluxo de dados em megabytes (mb))
 
-Bom desafio!
+ALLOW_ORIGIN= (CORS ORIGIN)
+ALLOW_HEADERS= (CORS HEADER)
+ALLOW_METHODS= (CORS METHODS)
 
-## O Desafio
+RECIPE_PUPPY_API=http://www.recipepuppy.com/api
 
-Você deve construir uma API que recebe ingredientes como parâmetro de entrada em uma chamada GET e retorna uma lista de receitas.
-Utilize as APIs públicas da RecipePuppy (http://www.recipepuppy.com/about/api/) e da Giphy (https://developers.giphy.com/docs/) para obter os dados necessários.
+GIPHY_API=https://api.giphy.com/v1/gifs/search?limit=1&offset=0&rating=g&lang=en
+GIPHY_KEY= (Chave de acesso a API do GIPHY)
 
-A API deve receber como parâmetro um conjunto de ingredientes (máximo 3) e deve retornar os itens utilizados para realizar a busca; e uma lista de receitas.
+# Baixar dependências
 
-Cada item lista de receitas deve possuir 4 atributos:
-- Título da receitam;
-- Lista de ingredientes;
-- Link para acessar a receita;
-- Link de um gif para a receita.
+npm i
 
+# Rodar projeto com Docker
 
-#### A Estrutura
+docker run -p 49160:8080 -d cristiano/deliverymuch
+
+# Pegar o ID do Container Docker
+
+$ docker ps
+
+# Listar Containers Docker
+
+docker images
+
+# Print de logs do Container Docker
+
+$ docker logs <container id>
+
+# Entrar no Container Docker
+
+$ docker exec -it <container id> /bin/bash
+
+# Rodar Testes Unitários
+
+npm run test
+
+# Rodar Projeto Local
+
+npm run dev
+
+# API Estrutura
 
 A API possui apenas um endpoint, que deve respeitar a seguinte chamada:
 
@@ -33,62 +63,3 @@ A API possui apenas um endpoint, que deve respeitar a seguinte chamada:
 Exemplo:
 
 `http://127.0.0.1/recipes/?i=onion,tomato`
-
-
-A resposta dessa requisição deve seguir a seguinte estrutura:
-
-```
-{
-	"keywords": ["onion", "tomato"],
-	"recipes": [{
-		"title": "Greek Omelet with Feta",
-		"ingredients": ["eggs", "feta cheese", "garlic", "red onions", "spinach", "tomato", "water"],
-		"link": "http://www.kraftfoods.com/kf/recipes/greek-omelet-feta-104508.aspx",
-		"gif": "https://media.giphy.com/media/xBRhcST67lI2c/giphy.gif"
-	   },{
-		"title": "Guacamole Dip Recipe",
-		"ingredients": ["avocado", "onions", "tomato"],
-		"link":"http://cookeatshare.com/recipes/guacamole-dip-2783",
-		"gif":"https://media.giphy.com/media/I3eVhMpz8hns4/giphy.gif"
-	   }
-	]
-}
-```
-
-### Requisitos
-
-- Utilizar NodeJS ou Go para criar a aplicação;
-- Toda configuração e chaves de acesso (se necessário) devem ser acessadas em um arquivo de ambiente. Sua configuração deve estar documentada no README;
-- Para obter o gif no Giphy, utilize o título da receita recebido pelo RecipePuppy;
-- Os ingredientes recebidos pelo RecipePuppy são recebidos em String. Organize os ingredientes em um array e ordene esse array por ordem alfabética;
-- Se algum dos serviços externos estiver indisponível o projeto deverá informar o usuário dessa indisponibilidade;
-- Utilizar Docker para executar o projeto;
-
-
-# Critérios de Avaliação
-
-### Entrega
-- O projeto está completo para ser executado?
-- O projeto atende ao que se propõe fazer?
-- Todos requisitos foram atendidos?
-
-### Boas Práticas
-- O código está de acordo com o guia de estilo do NodeJS / Go?
-- O código está bem estruturado?
-- O código está fluente na linguagem?
-- O código faz o uso correto de Design Patterns?
-
-### Documentação
-- O código foi entregue com um arquivo de README claro de como se guiar?
-- A documentação foi suficiente para executar o projeto?
-- Os commits são pequenos e consistentes?
-- As mensagens de commit são claras?
-
-### Código Limpo
-- O código possibilita expansão para novas funcionalidades?
-- O código é Don't Repeat Yourself?
-- O código é fácil de compreender?
-
-### Controle de Qualidade
-- O código possui configuração de lint?
-- O código possui testes unitários?
