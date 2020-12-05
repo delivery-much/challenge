@@ -1,0 +1,40 @@
+{
+  "name": "challenge",
+  "version": "1.0.0",
+  "description": "Bem vindo(a)! Esse é o Delivery Much Tech Challenge.",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "debug": "^4.3.1",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.14.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.2.0",
+    "express": "^4.17.1",
+    "http": "0.0.1-security",
+    "node-fetch": "^2.6.1",
+    "prettier": "^2.2.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.6",
+    "supertest": "^6.0.1"
+  },
+  "scripts": {
+    "dev": "nodemon ./bin/server.js",
+    "test": "mocha --recursive || true",
+    "start": "node ./bin/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CristianoCM/challenge.git"
+  },
+  "author": "Cristiano Carvalho Modesto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CristianoCM/challenge/issues"
+  },
+  "homepage": "https://github.com/CristianoCM/challenge#readme"
+}
