@@ -2,9 +2,11 @@
 
 Bem vindo(a)! Esse é o Delivery Much Tech Challenge.
 
-Cristiano Carvalho Modesto
-Versão 1.0
-04/12/2020
+AUTOR: Cristiano Carvalho Modesto
+
+VERSÃO: 1.0
+
+DATA: 04/12/2020
 
 ### .gitignore
 
