@@ -31,26 +31,6 @@ GIPHY_KEY= Chave de acesso a API do GIPHY
 
 npm i
 
-### Rodar projeto com Docker
-
-docker run -p 49160:8080 -d cristiano/deliverymuch
-
-### Pegar o ID do Container Docker
-
-docker ps
-
-### Listar Containers Docker
-
-docker images
-
-### Print de logs do Container Docker
-
-docker logs <container id>
-
-### Entrar no Container Docker
-
-docker exec -it <container id> /bin/bash
-
 ### Rodar Testes Unitários
 
 npm run test
@@ -58,6 +38,11 @@ npm run test
 ### Rodar Projeto Local
 
 npm run dev
+
+### Rodar projeto com Docker
+
+docker-compose build
+docker-compose up -d
 
 ### API Estrutura
 
